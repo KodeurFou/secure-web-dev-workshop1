@@ -15,7 +15,12 @@ console.log('🚀 It Works!');
 // 📝 TODO: Number of filming locations
 // 1. Make the function return the number of filming locations
 function getFilmingLocationsNumber () {
-	return ''
+	let memoire = new Set()
+	for (let location=0; location<filmingLocations.length; location++){
+		memoire.add(filmingLocations[location].fields.adresse_lieu)
+	}
+
+	return memoire.size
 }
 console.log(`There is ${getFilmingLocationsNumber()} filming locations in Paris`)
 
@@ -23,17 +28,26 @@ console.log(`There is ${getFilmingLocationsNumber()} filming locations in Paris`
 // 1. Implement the function
 // 2. Log the first and last item in array
 function sortFilmingLocationsByStartDate () {
-	return ''
+	const tri = filmingLocations.sort(function(a,b){return new Date(a.fields.date_debut) - Date(b.fields.date_debut)})
+	return tri[0]
 }
-console.log(``)
+console.log(sortFilmingLocationsByStartDate())
 
 // 📝 TODO: Number of filming locations in 2020 only
 // 1. Make the function return the number of filming locations in 2020 only
 // 2. Log the result
 function getFilmingLocationsNumber2020 () {
-	return ''
+
+	let count = 0
+	for (let location=0; location<filmingLocations.length; location++){
+		if(filmingLocations[location].fields.annee_tournage == 2020){
+			count ++
+		}
+	}
+
+	return count
 }
-console.log()
+console.log(`There is ${getFilmingLocationsNumber2020()} filming locations in 2020`)
 
 // 📝 TODO: Number of filming locations per year
 // 1. Implement the function, the expected result is an object with years as
@@ -44,9 +58,23 @@ console.log()
 //    }
 // 2. Log the result
 function getFilmingLocationsNumberPerYear () {
-	return {}
+
+	let locationPerYear = {}
+
+	for (let location=0; location<filmingLocations.length; location++){
+
+		if(locationPerYear[filmingLocations[location].fields.annee_tournage] === undefined){
+			locationPerYear[filmingLocations[location].fields.annee_tournage] = 0
+		}
+
+		locationPerYear[filmingLocations[location].fields.annee_tournage] += 1
+	}
+
+
+
+	return locationPerYear
 }
-console.log()
+console.log(getFilmingLocationsNumberPerYear () )
 
 // 📝 TODO: Number of filming locations by district (arrondissement)
 // 1. Implement the function, the expected result is an object with
