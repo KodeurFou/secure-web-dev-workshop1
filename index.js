@@ -70,8 +70,6 @@ function getFilmingLocationsNumberPerYear () {
 		locationPerYear[filmingLocations[location].fields.annee_tournage] += 1
 	}
 
-
-
 	return locationPerYear
 }
 console.log(getFilmingLocationsNumberPerYear () )
@@ -85,32 +83,82 @@ console.log(getFilmingLocationsNumberPerYear () )
 //    }
 // 2. Log the result
 function getFilmingLocationsNumberPerDistrict () {
-	return {}
+
+	let locationPerDistrict = {}
+
+	for (let location=0; location<filmingLocations.length; location++){
+
+		if(locationPerDistrict[filmingLocations[location].fields.ardt_lieu] === undefined){
+			locationPerDistrict[filmingLocations[location].fields.ardt_lieu] = 0
+		}
+
+		locationPerDistrict[filmingLocations[location].fields.ardt_lieu] += 1
+	}
+
+	return locationPerDistrict
+
 }
-console.log()
+console.log(getFilmingLocationsNumberPerDistrict ())
 
 // 📝 TODO: Number of locations per film, sorted in descending order
 // 1. Implement the function, result expected as an array of object like:
 //    const result = [{film: 'LRDM - Patriot season 2', locations: 12}, {...}]
 // 2. Log the first and last item of the array
 function getFilmLocationsByFilm () {
-	return []
+
+	let locationPerFilm = {}
+
+	for (let location=0; location<filmingLocations.length; location++){
+
+		if(locationPerFilm[filmingLocations[location].fields.nom_tournage] === undefined){
+			locationPerFilm[filmingLocations[location].fields.nom_tournage] = 0
+		}
+
+
+		locationPerFilm[filmingLocations[location].fields.nom_tournage] += 1
+	}
+
+	let res = []
+	for (let key in locationPerFilm){
+		let intermediaire = {film : key, location : locationPerFilm[key]}
+		res.push(intermediaire)
+	}
+
+	let sortie = res.sort(function(a,b){return b.location - a.location})
+
+
+	return sortie
 }
-console.log()
+console.log(getFilmLocationsByFilm ())
 
 // 📝 TODO: Number of different films
 // 1. Implement the function
 // 2. Log the result
 function getNumberOfFilms() {
-	return ''
+	let test = getFilmLocationsByFilm ()
+
+	return test.length
 }
+console.log(getNumberOfFilms())
 
 // 📝 TODO: All the filming locations of `LRDM - Patriot season 2`
 // 1. Return an array with all filming locations of LRDM - Patriot season 2
 // 2. Log the result
 function getArseneFilmingLocations () {
-	return []
+
+	let locationLRDM = []
+
+	for (let location=0; location<filmingLocations.length; location++){
+
+		if(filmingLocations[location].fields.nom_tournage === "LRDM - Patriot season 2"){
+			locationLRDM.push(filmingLocations[location].fields.adresse_lieu)
+		}
+	}
+
+	return locationLRDM
 }
+
+console.log(getArseneFilmingLocations())
 
 // 📝 TODO: Tous les arrondissement des lieux de tournage de nos films favoris
 //  (favoriteFilms)
@@ -119,7 +167,22 @@ function getArseneFilmingLocations () {
 //    const films = { 'LRDM - Patriot season 2': ['75013'] }
 // 2. Log the result
 function getFavoriteFilmsLocations (favoriteFilmsNames) {
-	return []
+	let res = {}
+	console.log(favoriteFilmsNames)
+
+	for (let element of favoriteFilmsNames){
+		let intermediaire = []
+		for (let location=0; location<filmingLocations.length; location++){
+
+			if(filmingLocations[location].fields.nom_tournage === element){
+				intermediaire.push(filmingLocations[location].fields.ardt_lieu)
+			}
+		}
+
+		res[element] = intermediaire
+		intermediaire = []
+	}
+	return res
 }
 const favoriteFilms =
 	[
@@ -128,6 +191,8 @@ const favoriteFilms =
 		'Emily in Paris',
 	]
 
+console.log(getFavoriteFilmsLocations(favoriteFilms))
+
 // 📝 TODO: All filming locations for each film
 //     e.g. :
 //     const films = {
@@ -135,7 +200,22 @@ const favoriteFilms =
 //        'Une jeune fille qui va bien': [{...}]
 //     }
 function getFilmingLocationsPerFilm () {
-	return { }
+
+	let res = {}
+
+	for (let element of favoriteFilmsNames){
+		let intermediaire = []
+		for (let location=0; location<filmingLocations.length; location++){
+
+			if(filmingLocations[location].fields.nom_tournage === element){
+				intermediaire.push(filmingLocations[location].fields.adresse_lieu)
+			}
+		}
+
+		res[element] = intermediaire
+		intermediaire = []
+	}
+	return res
 }
 
 // 📝 TODO: Count each type of film (Long métrage, Série TV, etc...)
